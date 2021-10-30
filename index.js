@@ -40,6 +40,7 @@ async function run() {
             const packages = await cursor.toArray();
             res.send(packages);
         })
+        
         // Get single Packages
         app.get('/packages/:id', async(req, res) => {
             const id = req.params.id;
@@ -52,15 +53,14 @@ async function run() {
             const cursor = orderCollection.find({});
             const orders = await cursor.toArray();
             res.send(orders);
-            console.log(orders)
         })
+
         // Delete Order pack
         app.delete('/orders/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const order = await orderCollection.deleteOne(query);
             res.send(order);
-            console.log(order);
         })
 
         app.get('/orders', async(req, res) => {
