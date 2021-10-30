@@ -4,16 +4,14 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId
+
 const port = process.env.PORT || 5000;
-
-
 
 //middleware
 app.use(cors());
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mthak.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function run() {
@@ -49,13 +47,24 @@ async function run() {
             const package = await packageCollection.findOne(query);
             res.send(package);
         })
+        //Get all orders
+        app.get('/orders', async(req, res) => {
+            const cursor = orderCollection.find({});
+            const orders = await cursor.toArray();
+            res.send(orders);
+            console.log(orders)
+        })
         // Delete Order pack
-        app.get('/orders/:email', async(req, res) => {
-            const email = req.params.email;
-            //const query = {email: {$in: email}}
-            //const orders = await orderCollection.find(query).toArray();
-            console.log(req.params);
-            //res.send(orders);
+        app.delete('/orders/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const order = await orderCollection.deleteOne(query);
+            res.send(order);
+            console.log(order);
+        })
+
+        app.get('/orders', async(req, res) => {
+            
         })
     }
     finally{
