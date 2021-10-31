@@ -21,7 +21,7 @@ async function run() {
         const packageCollection = database.collection('packages')
         const orderCollection = database.collection('orders')
 
-        // Insert data to database
+        // Insert Package data to database
         app.post('/packages', async(req, res) => {
             const newPackage = req.body;
             const result = await packageCollection.insertOne(newPackage);
@@ -66,7 +66,6 @@ async function run() {
     finally{
         //await client.close();
     }
-
 }
 run().catch(console.dir);
 
