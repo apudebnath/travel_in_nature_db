@@ -62,10 +62,6 @@ async function run() {
             const order = await orderCollection.deleteOne(query);
             res.send(order);
         })
-
-        app.get('/orders', async(req, res) => {
-            
-        })
     }
     finally{
         //await client.close();
